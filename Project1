@@ -1,0 +1,72 @@
+//	Grading ID:	M7256
+//	Program 1 - Due Feb 12
+//	CIS 199-01
+//	This program is designed to allow inputs and calculate the costs included with a carpet purchase.
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static System.Console;
+
+namespace Program1
+{
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			//	Declared Variables
+			const double sqYardConvert	= 9;
+			const double paddingConst	= 2.75;
+			const double laborConst		= 4.5;
+			const double wastePercent	= 1.1;
+			double enteredWidth, enteredLength;
+			double enteredPrice, carpetCost;
+			double carpetNeed, paddingCost;
+			double laborCost, firstRoom;
+			int enteredPadding, enteredRoom;
+
+			WriteLine("Welcome to the Handy-Dandy Carpet Estimator");
+			WriteLine("");
+
+			//	Initial Prompts
+			Write("Enter the max width of the room (in feet):		");
+			enteredWidth = Convert.ToDouble(ReadLine());
+
+			Write("Enter the max length of the room (in feet):		");
+			enteredLength = Convert.ToDouble(ReadLine());
+
+			Write("Enter the carpet price (per sq. yard):			");
+			enteredPrice = Convert.ToDouble(ReadLine());
+
+			Write("Enter layers of padding to use (1 or 2):		");
+			enteredPadding = Int32.Parse(ReadLine());
+
+			Write("Is this the first room? (1 = YES, 0 = NO):		");
+			enteredRoom = Int32.Parse(ReadLine());
+
+
+			//	Internal Processes
+			carpetNeed = enteredLength * enteredWidth / sqYardConvert;
+
+			carpetCost = carpetNeed * wastePercent * enteredPrice;
+
+			paddingCost = paddingConst * enteredPadding * carpetNeed * wastePercent;
+
+			laborCost = laborConst * carpetNeed;
+
+			firstRoom = 100 * enteredRoom;
+
+			WriteLine("");
+
+
+			//	Displayed Calculations
+			WriteLine("Sq. Yards Needed:	{0,9:F1}", carpetNeed);
+			WriteLine("Carpet Cost:		{0,10:C2}", carpetCost);
+			WriteLine("Padding Cost:		{0,10:C2}", paddingCost);
+			WriteLine("Labor Cost:		{0,10:C2}", laborCost + firstRoom);
+			WriteLine("Total Cost:		{0,10:C2}", carpetCost + paddingCost + laborCost + firstRoom);
+		}
+	}
+}
