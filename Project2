@@ -1,0 +1,219 @@
+// Grading ID:	M7256
+// Project 2	CIS199-01
+// Due March 5, 2019
+// This program is designed to take a user's income and filing status, then return a tax rate and tax amount to the user.
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Console;
+
+namespace Program2
+{
+	public partial class Form1 : Form
+	{
+		public Form1()
+		{
+			InitializeComponent();
+		}
+
+		/* Clicking the 'calculate' button will fire this sequence of code */
+		private void calcBtn_Click(object sender, EventArgs e)
+		{
+			uint INCOME = Convert.ToUInt32(incomeValue.Text);
+			int single1 = 9700,	  joint1 = 19400,	head1 = 13850,	separate1 = 9700,				// Declared variables for tax rate maximums
+				single2 = 39475,  joint2 = 78950,	head2 = 52850,	separate2 = 39475,
+				single3 = 84200,  joint3 = 168400,	head3 = 84200,	separate3 = 84200,
+				single4 = 160725, joint4 = 321450,	head4 = 160700,	separate4 = 160725,
+				single5 = 204100, joint5 = 408200,	head5 = 204100,	separate5 = 204100,
+				single6 = 510300, joint6 = 612350,	head6 = 510300,	separate6 = 306175;
+
+
+			if (uint.TryParse(incomeValue.Text, out INCOME))															// Checks for correct input data type
+			{
+				if (singleBtn.Checked)																											// If filing as a single...
+				{
+					if (INCOME <= single1)																										// If income is less than the single1 value...
+					{
+						taxRateValue.Text = "10";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(INCOME * .10m);											// Displays calculated tax due for 10%
+					}
+					else if (INCOME <= single2)																								// If income is less than single2 value...
+					{
+						taxRateValue.Text = "12";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - single1) * .12m) + (single1 * .10m));									// Displays calculated tax due for 12%
+					}
+					else if (INCOME <= single3)																								// If income is less than single3 value...
+					{
+						taxRateValue.Text = "22";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - single2) * .22m) + ((single1 * .10m) + ((single2 - single1) * .12m)));	// Displays calculated tax for 22%
+					}
+					else if (INCOME <= single4)																								// If income is less than single4 value...
+					{
+						taxRateValue.Text = "24";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - single3) * .24m) + (single1 * .10m) + ((single2 - single1) * .12m)		// Displays calculated tax for 24% 
+							+ ((single3 - single2) * .22m));
+					}
+					else if (INCOME <= single5)																								// If income is less than single5 value...
+					{
+						taxRateValue.Text = "32";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - single4) * .32m) + (single1 * .10m) + ((single2 - single1) * .12m)		// Displays calculated tax for 32%
+							+ ((single3 - single2) * .22m) + ((single4 - single3) * .24m));
+					}
+					else if (INCOME <= single6)																								// If income is less than single6 value...
+					{
+						taxRateValue.Text = "35";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - single5) * .35m) + (single1 * .10m) + ((single2 - single1) * .12m)		// Displays calculated tax for 35%
+							+ ((single3 - single2) * .22m) + ((single4 - single3) * .24m) + ((single5 - single4) * .32m));
+					}
+					else if (INCOME > single6)																								// If income is greater than single6 value...
+					{
+						taxRateValue.Text = "37";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - single6) * .37m) + (single1 * .10m) + ((single2 - single1) * .12m)		// Displays calculated tax for 37%
+							+ ((single3 - single2) * .22m) + ((single4 - single3) * .24m) + ((single5 - single4) * .32m) + ((single6 - single5) * .35m));
+					}
+
+				}
+				else if (marriedJointBtn.Checked)																						// If filing as married joint...
+				{
+					if (INCOME <= joint1)																										  // If income is less than joint1 value...
+					{
+						taxRateValue.Text = "10";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(INCOME * .10m);											// Displays calculated tax for 10%
+					}
+					else if (INCOME <= joint2)																								// If income is less than joint2 value...
+					{
+						taxRateValue.Text = "12";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - joint1) * .12m) + (joint1 * .10m));										// Displays calculated tax for 12%
+					}
+					else if (INCOME <= joint3)																								// If income is less than joint3 value...
+					{
+						taxRateValue.Text = "22";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - joint2) * .22m) + ((joint1 * .10m) + ((joint2 - joint1) * .12m)));		// Displays calculated tax for 22%
+					}
+					else if (INCOME <= joint4)																								// If income is less than joint4 value...
+					{
+						taxRateValue.Text = "24";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - joint3) * .24m) + (joint1 * .10m) + ((joint2 - joint1) * .12m)			// Displays calculated tax for 24%
+							+ ((joint3 - joint2) * .22m));
+					}
+					else if (INCOME <= joint5)																								// If income is less than joint5 value...
+					{
+						taxRateValue.Text = "32";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - joint4) * .32m) + (joint1 * .10m) + ((joint2 - joint1) * .12m)			// Displays calculated tax for 32%
+							+ ((joint3 - joint2) * .22m) + ((joint4 - joint3) * .24m));
+					}
+					else if (INCOME <= joint6)																								// If income is less than joint6 value...
+					{
+						taxRateValue.Text = "35";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - joint5) * .35m) + (joint1 * .10m) + ((joint2 - joint1) * .12m)			// Displays calculated tax for 35%
+							+ ((joint3 - joint2) * .22m) + ((joint4 - joint3) * .24m) + ((joint5 - joint4) * .32m));
+					}
+					else if (INCOME > joint6)																									// If income is greater than joint6 value...
+					{
+						taxRateValue.Text = "37";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - joint6) * .37m) + (joint1 * .10m) + ((joint2 - joint1) * .12m)			// Displays calculated tax for 37%
+							+ ((joint3 - joint2) * .22m) + ((joint4 - joint3) * .24m) + ((joint5 - joint4) * .32m) + ((joint6 - joint5) * .35m));
+					}
+				}
+				else if (headBtn.Checked)																										// If filing as head of household...
+				{
+					if (INCOME <= head1)																										  // If income is less than head1 value...
+					{
+						taxRateValue.Text = "10";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(INCOME * .10m);											// Displays calculated tax for 10%
+					}
+					else if (INCOME <= head2)																									// If income is less than head2 value...
+					{
+						taxRateValue.Text = "12";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - head1) * .12m) + (head1 * .10m));										// Displays calculated tax for 12%
+					}
+					else if (INCOME <= head3)																									// If income is less than head3 value...
+					{
+						taxRateValue.Text = "22";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - head2) * .22m) + ((head1 * .10m) + ((head2 - head1) * .12m)));			// Displays calculated tax for 22%
+					}
+					else if (INCOME <= head4)																									// If income is less than head4 value...
+					{
+						taxRateValue.Text = "24";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - head3) * .24m) + (head1 * .10m) + ((head2 - head1) * .12m)				// Displays calculated tax for 24%
+							+ ((head3 - head2) * .22m));
+					}
+					else if (INCOME <= head5)																									// If income is less than head5 value...
+					{
+						taxRateValue.Text = "32";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - head4) * .32m) + (head1 * .10m) + ((head2 - head1) * .12m)				// Displays calculated tax for 32%
+							+ ((head3 - head2) * .22m) + ((head4 - head3) * .24m));
+					}
+					else if (INCOME <= head6)																									// If income is less than head6 value...
+					{
+						taxRateValue.Text = "35";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - head5) * .35m) + (head1 * .10m) + ((head2 - head1) * .12m)				// Displays calculated tax for 35%
+							+ ((head3 - head2) * .22m) + ((head4 - head3) * .24m) + ((head5 - head4) * .32m));
+					}
+					else if (INCOME > head6)																									// If income is greater than head6 value...
+					{	
+						taxRateValue.Text = "37";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - head6) * .37m) + (head1 * .10m) + ((head2 - head1) * .12m)				// Displays calculated tax for 37%
+							+ ((head3 - head2) * .22m) + ((head4 - head3) * .24m) + ((head5 - head4) * .32m) + ((head6 - head5) * .35m));
+					}
+				}
+				else if (marriedSeparateBtn.Checked)																				// If filing as married separate...
+				{
+					if (INCOME <= separate1)																									// If income is less than separate1 value
+					{
+						taxRateValue.Text = "10";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(INCOME * .10m);											// Displays calculated tax rate for 10%
+					}
+					else if (INCOME <= separate2)																							// If income is less than separate2 value
+					{
+						taxRateValue.Text = "12";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - separate1) * .12m) + (separate1 * .10m));								// Displays calculated tax for 12%
+					}
+					else if (INCOME <= separate3)																							// If income is less than separate3 value...
+					{
+						taxRateValue.Text = "22";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - separate2) * .22m) + ((separate1 * .10m)									// Displays calculated tax for 22%
+							+ ((separate2 - separate1) * .12m)));
+					}
+					else if (INCOME <= separate4)																							// If income is less than separate4 value...
+					{
+						taxRateValue.Text = "24";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - separate3) * .24m) + (separate1 * .10m)									// Displays calculated tax for 24%
+							+ ((separate2 - separate1) * .12m) + ((separate3 - separate2) * .22m));
+					}
+					else if (INCOME <= separate5)																							// If income is less than separate5 value...
+					{
+						taxRateValue.Text = "32";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - separate4) * .32m) + (separate1 * .10m)									// Displays calculated tax for 32%
+							+ ((separate2 - separate1) * .12m) + ((separate3 - separate2) * .22m) + ((separate4 - separate3) * .24m));
+					}
+					else if (INCOME <= separate6)																							// If income is less than separate6 value...
+					{
+						taxRateValue.Text = "35";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - separate5) * .35m) + (separate1 * .10m)									// Displays calculated tax for 35%
+							+ ((separate2 - separate1) * .12m) + ((separate3 - separate2) * .22m) + ((separate4 - separate3) * .24m) 
+							+ ((separate5 - separate4) * .32m));
+					}
+					else if (INCOME > separate6)																							// If income is greater than separate6 value...
+					{
+						taxRateValue.Text = "37";																								// Displays tax rate
+						taxDueValue.Text = Convert.ToString(((INCOME - separate6) * .37m) + (separate1 * .10m)									// Displays calculated tax for 37%
+							+ ((separate2 - separate1) * .12m) + ((separate3 - separate2) * .22m) + ((separate4 - separate3) * .24m)			
+							+ ((separate5 - separate4) * .32m) + ((separate6 - separate5) * .35m));
+					}
+				}
+			}
+			else
+			{
+				MessageBox.Show("Please enter a valid income");															// Requests a valid income value if incorrect
+			}
+		}
+	}
+}
